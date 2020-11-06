@@ -13,17 +13,17 @@
           theme="dark"
           width="auto"
           :class="menuitemClasses"
-          :style="{marginTop:'50px'}"
+          :style="{ marginTop: '50px' }"
         >
           <MenuItem name="/admin/dashboard" to="/admin/dashboard">
             <Icon type="ios-compass" />
             <span>仪表盘</span>
           </MenuItem>
-          <MenuItem name="/admin/article"  to="/admin/article">
+          <MenuItem name="/admin/article" to="/admin/article">
             <Icon type="ios-list-box-outline" />
             <span>文章列表</span>
           </MenuItem>
-          <MenuItem name="/admin/settings"  to="/admin/settings">
+          <MenuItem name="/admin/settings" to="/admin/settings">
             <Icon type="ios-settings"></Icon>
             <span>设置</span>
           </MenuItem>
@@ -38,6 +38,16 @@
             type="md-menu"
             size="24"
           ></Icon>
+          <Dropdown :style="{ float: 'right',marginRight:'80px' }" @on-click="dropDownClick">
+            <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+            <span>欢迎您！翊子哥</span>
+            <Badge :count="notificationCount" :offset="[13,5]" overflow-count="10"><Icon type="ios-arrow-down"></Icon></Badge>
+            <DropdownMenu slot="list">
+              <DropdownItem name="/admin/notifications"><Badge :dot="Boolean(notificationCount)">通知中心</Badge></DropdownItem>
+              <DropdownItem name="/admin/settings">个人设置</DropdownItem>
+              <DropdownItem name="/login">退出登录</DropdownItem>
+            </DropdownMenu></Dropdown
+          >
         </Header>
         <Content
           :style="{ margin: '20px', background: '#fff', minHeight: '260px' }"
@@ -67,19 +77,24 @@ export default {
     menuitemClasses() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
     },
-    
+    notificationCount(){
+      return this.$store.getters.notificationsCount;
+    }
   },
   methods: {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
     },
+
+    dropDownClick(name){
+      // console.log(name)
+      this.$router.push(name)
+    }
   },
   created() {},
   mounted() {},
   updated() {
-    this.$nextTick(()=>{
-      
-    })
+    this.$nextTick(() => {});
   },
   destroyed() {},
 };
