@@ -1,11 +1,11 @@
 <template>
   <Card :style="{padding:'15px'}">
-    <Button slot="title" @click="toReadAll" :disabled="isAllRead" type="primary" :style="{position:'absolute',right:'30px',top:'5px'}">全部标记为已读</Button>
-    <List>
+    <Button slot="title" @click="toReadAll" :loading="isLoading" :disabled="isAllRead" type="primary" :style="{position:'absolute',right:'30px',top:'5px'}">全部标记为已读</Button>
+    <List :loading="isLoading">
         <ListItem v-for="(item,index) in lists" :key="index"> 
           <ListItemMeta :title="item.title" :description="item.desc" />
           <template slot="action" v-if="!item.hasRead">
-            <Badge dot><Button @click="clickToRead(item)">标记为已读</Button></Badge>
+            <Badge dot><Button @click="clickToRead(item.id)">标记为已读</Button></Badge>
           </template>
         </ListItem>
     </List></Card
@@ -20,7 +20,7 @@ export default {
   props: {},
   data() {
     return {
-      
+      isLoading:false
     };
   },
   watch: {},
@@ -35,17 +35,18 @@ export default {
     }
   },
   methods: {
-    clickToRead(item){
-      this.lists.forEach(i => {
-        if(i.id === item.id){
-          i.hasRead = true;
-        }
-      })
+    clickToRead(id){
+      this.isLoading = true;
+      this.$store.dispatch("markRead",id).then(() => {
+        // console.log(1)
+        this.isLoading = false;
+      });
     },
 
     toReadAll(){
-      this.lists.forEach(item => {
-        item.hasRead = true;
+      this.isLoading = true;
+      this.$store.dispatch("markReadAll").then(() =>{
+        this.isLoading = false;
       })
     }
   },

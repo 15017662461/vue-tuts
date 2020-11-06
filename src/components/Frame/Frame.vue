@@ -38,12 +38,24 @@
             type="md-menu"
             size="24"
           ></Icon>
-          <Dropdown :style="{ float: 'right',marginRight:'80px' }" @on-click="dropDownClick">
-            <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
-            <span>欢迎您！翊子哥</span>
-            <Badge :count="notificationCount" :offset="[13,5]" overflow-count="10"><Icon type="ios-arrow-down"></Icon></Badge>
+          <Dropdown
+            :style="{ float: 'right', marginRight: '80px' }"
+            @on-click="dropDownClick"
+          >
+            <Avatar :src="this.$store.state.user.avatar" />
+            <span>欢迎您！{{ this.$store.state.user.displayName }}</span>
+            <Badge
+              :count="notificationCount"
+              :offset="[13, 5]"
+              overflow-count="10"
+              ><Icon type="ios-arrow-down"></Icon
+            ></Badge>
             <DropdownMenu slot="list">
-              <DropdownItem name="/admin/notifications"><Badge :dot="Boolean(notificationCount)">通知中心</Badge></DropdownItem>
+              <DropdownItem name="/admin/notifications"
+                ><Badge :dot="Boolean(notificationCount)"
+                  >通知中心</Badge
+                ></DropdownItem
+              >
               <DropdownItem name="/admin/settings">个人设置</DropdownItem>
               <DropdownItem name="/login">退出登录</DropdownItem>
             </DropdownMenu></Dropdown
@@ -77,21 +89,31 @@ export default {
     menuitemClasses() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
     },
-    notificationCount(){
+    notificationCount() {
       return this.$store.getters.notificationsCount;
-    }
+    },
   },
   methods: {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
     },
 
-    dropDownClick(name){
+    dropDownClick(name) {
       // console.log(name)
-      this.$router.push(name)
+      if (name === "/login") {
+        this.$store.commit("toLogout");
+        console.log(this.$store.state.user);
+      }
+      if (!this.$route.path.includes(name)) {
+        this.$router.push(name);
+      }
+    },
+  },
+  created() {
+    if (!this.$store.state.user.isLogin) {
+      this.$router.push("/login");
     }
   },
-  created() {},
   mounted() {},
   updated() {
     this.$nextTick(() => {});

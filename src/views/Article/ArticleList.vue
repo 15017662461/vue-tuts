@@ -1,6 +1,13 @@
 <template>
-
   <Card dis-hover :style="{ height: '100%' }">
+    <Modal
+      v-model="modal6"
+      title="此操作不可逆，请谨慎选择"
+      :loading="deleteLoading"
+      @on-ok="asyncOK"
+    >
+      <p>确定要删除{{ delTitle }}吗</p>
+    </Modal>
     <Table :columns="columns1" :data="data1" :loading="isLoading">
       <template slot-scope="{ row, index }" slot="action">
         <Button
@@ -15,13 +22,19 @@
         >
       </template>
     </Table>
-    <div style="margin: 10px;overflow: hidden">
-        <div style="float: right;">
-            <Page :total="this.total" :current="1" show-elevator show-sizer @on-change="changePage" @on-page-size-change="changePageSize" ></Page>
-        </div>
+    <div style="margin: 10px; overflow: hidden">
+      <div style="float: right">
+        <Page
+          :total="this.total"
+          :current="1"
+          show-elevator
+          show-sizer
+          @on-change="changePage"
+          @on-page-size-change="changePageSize"
+        ></Page>
+      </div>
     </div>
   </Card>
-  
 </template>
 
 <script>
@@ -34,28 +47,32 @@ export default {
   props: {},
   data() {
     return {
-      total:0,
+      total: 0,
       lists: [],
       columns1: [],
       data1: [],
-      isLoading:false,
+      isLoading: false,
+      modal6: false,
+      delTitle: "123",
+      delId:0,
+      deleteLoading: true,
     };
   },
   watch: {},
   computed: {},
   methods: {
-    getData(){
+    getData() {
       this.isLoading = true;
       getArticleList()
-      .then((resp) => {
-        this.lists = resp.data.list;
-        this.total = resp.data.total;
-      })
-      .finally(() => {
-        this.columns1 = this.setCol();
-        this.data1 = this.setData();
-        this.isLoading = false;
-      });
+        .then((resp) => {
+          this.lists = resp.data.list;
+          this.total = resp.data.total;
+        })
+        .finally(() => {
+          this.columns1 = this.setCol();
+          this.data1 = this.setData();
+          this.isLoading = false;
+        });
     },
 
     setCol() {
@@ -85,24 +102,30 @@ export default {
     },
 
     del(row, index) {
-      // this.data6.splice(index, 1);
-      delArticle(row.id).then((resp) => {
-        // console.log(resp);
-        this.$Message.success(resp.data.msg);
-      })
-      .finally(() => {
-        this.getData()
-      })
+      this.delTitle = row.title;
+      this.delId = row.id;
+      this.modal6 = true;
     },
 
-    changePage(page){
-      this.getData()
+    asyncOK() {
+      delArticle(this.delId)
+        .then((resp) => {
+          // console.log(resp);
+          this.modal6 = false;
+          this.$Message.success(resp.data.msg);
+        })
+        .finally(() => {
+          this.getData();
+        });
     },
 
-    changePageSize(pageSize){
-      this.getData()
-    }
+    changePage(page) {
+      this.getData();
+    },
 
+    changePageSize(pageSize) {
+      this.getData();
+    },
   },
   created() {
     this.getData();
