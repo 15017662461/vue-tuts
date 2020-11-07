@@ -15,10 +15,15 @@
           size="small"
           style="margin-right: 5px"
           @click="toEdit(row, index)"
-          >View</Button
+          >查看</Button
         >
-        <Button type="error" size="small" @click="del(row, index)"
-          >Delete</Button
+        <Button type="error" size="small" @click="del(row, index)">删除</Button>
+      </template>
+      <template slot-scope="{ row, index }" slot="amount">
+        <Tooltip :content="row.amount >= 1000 ? '热门' : '新兴'" placement="right" theme="light" transfer="true"
+          ><Tag :color="row.amount >= 1000 ? 'red' : 'green'">{{
+            row.amount
+          }}</Tag></Tooltip
         >
       </template>
     </Table>
@@ -54,8 +59,15 @@ export default {
       isLoading: false,
       modal6: false,
       delTitle: "123",
-      delId:0,
+      delId: 0,
       deleteLoading: true,
+      titleDisplayMap: {
+        title: "标题",
+        author: "作者",
+        createAt: "修改时间",
+        amount: "阅读量",
+        id: "id",
+      },
     };
   },
   watch: {},
@@ -77,10 +89,22 @@ export default {
 
     setCol() {
       const col = Object.keys(this.lists[0]).map((item) => {
-        return { title: item, key: item };
+        if (item === "amount") {
+          return {
+            title: this.titleDisplayMap[item],
+            key: item,
+            align: "center",
+            slot: "amount",
+          };
+        }
+        return {
+          title: this.titleDisplayMap[item],
+          key: item,
+          align: "center",
+        };
       });
       col.push({
-        title: "action",
+        title: "操作",
         slot: "action",
         width: 150,
         align: "center",

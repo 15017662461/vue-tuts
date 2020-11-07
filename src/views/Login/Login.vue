@@ -85,7 +85,7 @@ export default {
       const user = this.formInline.user;
       const password = this.formInline.password
       this.$store.dispatch("login",{user,password})
-      setTimeout(() =>{
+      .then(() => {
         this.$router.push('/admin/dashboard')
       })
     }

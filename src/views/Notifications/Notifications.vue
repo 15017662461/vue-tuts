@@ -1,11 +1,11 @@
 <template>
   <Card :style="{padding:'15px'}">
     <Button slot="title" @click="toReadAll" :loading="isLoading" :disabled="isAllRead" type="primary" :style="{position:'absolute',right:'30px',top:'5px'}">全部标记为已读</Button>
-    <List :loading="isLoading">
+    <List>
         <ListItem v-for="(item,index) in lists" :key="index"> 
           <ListItemMeta :title="item.title" :description="item.desc" />
           <template slot="action" v-if="!item.hasRead">
-            <Badge dot><Button @click="clickToRead(item.id)">标记为已读</Button></Badge>
+            <Badge dot><Button @click="clickToRead(item.id)" :loading="isLoading">标记为已读</Button></Badge>
           </template>
         </ListItem>
     </List></Card

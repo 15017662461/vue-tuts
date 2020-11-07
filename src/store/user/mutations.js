@@ -27,5 +27,9 @@ export const mutations = {
     window.localStorage.removeItem("authToken");
     window.sessionStorage.removeItem("userInfo");
     window.localStorage.removeItem("userInfo");
+  },
+  updateAvatar(state,avatarUrl){
+    state.avatar = avatarUrl;
+    // console.log(1)
   }
 }

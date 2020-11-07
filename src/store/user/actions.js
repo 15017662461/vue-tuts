@@ -3,7 +3,12 @@ export const actions = {
   login(context,payload){
     login(payload.user,payload.password).then(resp => {
       // console.log(resp)
-      context.commit("toLogin",resp.data)
+      // console.log(payload.user)
+      // console.log(this)
+      return new Promise((resolve,reject) =>{
+        context.commit("toLogin",resp.data);
+        resolve();
+      })
     })
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Layout>
+    <Layout > 
       <Sider
         ref="side1"
         hide-trigger
@@ -10,20 +10,24 @@
       >
         <Menu
           :active-name="$route.path"
-          theme="dark"
           width="auto"
           :class="menuitemClasses"
           :style="{ marginTop: '50px' }"
+          theme="dark"
         >
-          <MenuItem name="/admin/dashboard" to="/admin/dashboard">
+          <MenuItem
+            name="/admin/dashboard"
+            to="/admin/dashboard"
+            replace="true"
+          >
             <Icon type="ios-compass" />
             <span>仪表盘</span>
           </MenuItem>
-          <MenuItem name="/admin/article" to="/admin/article">
+          <MenuItem name="/admin/article" to="/admin/article" replace="true">
             <Icon type="ios-list-box-outline" />
             <span>文章列表</span>
           </MenuItem>
-          <MenuItem name="/admin/settings" to="/admin/settings">
+          <MenuItem name="/admin/settings" to="/admin/settings" replace="true">
             <Icon type="ios-settings"></Icon>
             <span>设置</span>
           </MenuItem>
@@ -109,15 +113,9 @@ export default {
       }
     },
   },
-  created() {
-    if (!this.$store.state.user.isLogin) {
-      this.$router.push("/login");
-    }
-  },
+  created() {},
   mounted() {},
-  updated() {
-    this.$nextTick(() => {});
-  },
+  updated() {},
   destroyed() {},
 };
 </script>
