@@ -19,7 +19,7 @@
         >
         <Button type="error" size="small" @click="del(row, index)">删除</Button>
       </template>
-      <template slot-scope="{ row, index }" slot="amount">
+      <template slot-scope="{ row }" slot="amount">
         <Tooltip :content="row.amount >= 1000 ? '热门' : '新兴'" placement="right" theme="light" :transfer="true"
           ><Tag :color="row.amount >= 1000 ? 'red' : 'green'">{{
             row.amount
