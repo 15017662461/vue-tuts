@@ -18,16 +18,16 @@
           <MenuItem
             name="/admin/dashboard"
             to="/admin/dashboard"
-            replace="true"
+            :replace="true"
           >
             <Icon type="ios-compass" />
             <span>仪表盘</span>
           </MenuItem>
-          <MenuItem name="/admin/article" to="/admin/article" replace="true">
+          <MenuItem name="/admin/article" to="/admin/article" :replace="true">
             <Icon type="ios-list-box-outline" />
             <span>文章列表</span>
           </MenuItem>
-          <MenuItem name="/admin/settings" to="/admin/settings" replace="true">
+          <MenuItem name="/admin/settings" to="/admin/settings" :replace="true">
             <Icon type="ios-settings"></Icon>
             <span>设置</span>
           </MenuItem>

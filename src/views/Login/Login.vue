@@ -87,6 +87,7 @@ export default {
       this.$store.dispatch("login",{user,password})
       .then(() => {
         this.$router.push('/admin/dashboard')
+        // console.log(this.$store.state.user)
       })
     }
   },
